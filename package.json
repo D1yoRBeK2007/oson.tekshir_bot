@@ -1,5 +1,5 @@
 {
-  "name": "test-bot",
+  "name": "oson-tekshir-bot",
   "version": "1.0.0",
   "dependencies": {
     "telegraf": "^4.12.0",
