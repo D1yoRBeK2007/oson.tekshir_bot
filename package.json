@@ -1,12 +1,8 @@
 {
   "name": "oson-tekshir-bot",
   "version": "1.0.0",
-  "main": "api/bot.js",
   "dependencies": {
-    "telegraf": "^4.15.3",
-    "@supabase/supabase-js": "^2.39.3"
-  },
-  "engines": {
-    "node": "18.x"
+    "telegraf": "^4.12.0",
+    "@supabase/supabase-js": "^2.39.0"
   }
 }
