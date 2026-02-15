@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Bot</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f4; }
+        .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input, select, button { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        button { background-color: #2481cc; color: white; border: none; font-weight: bold; cursor: pointer; }
+        .hidden { display: none; }
+        .answer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+        .answer-input { text-align: center; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainForm">
+        <h3>Ma'lumotlarni kiriting</h3>
+        <input type="text" id="fullName" placeholder="Ism Familiya (Aliyev Vali)" required>
+        
+        <select id="subject">
+            <option value="Huquq">Huquq</option>
+            <option value="Chet tili">Chet tili</option>
+            <option value="IQ">IQ</option>
+            <option value="Fizika">Fizika</option>
+            <option value="Matematika">Matematika</option>
+            <option value="Kimyo">Kimyo</option>
+            <option value="Biologiya">Biologiya</option>
+            <option value="Tarix">Tarix</option>
+        </select>
+
+        <input type="number" id="testCode" placeholder="Test kodi (Masalan: 11)" required>
+        <input type="number" id="questionCount" placeholder="Testlar soni (10-90)" min="10" max="90" required>
+        
+        <select id="scoreMode">
+            <option value="general">Umumiy (Hamma 1 balldan)</option>
+            <option value="special">Maxsus (1.1, 2.1, 3.1)</option>
+        </select>
+
+        <button onclick="generateAnswerSheet()">Javoblarni kiritish</button>
+    </div>
+
+    <div class="container hidden" id="answerSheet">
+        <h3>Javoblaringizni kiriting</h3>
+        <div id="gridContainer" class="answer-grid"></div>
+        <br>
+        <button onclick="submitTest()">Testni Yakunlash</button>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function generateAnswerSheet() {
+            const count = document.getElementById('questionCount').value;
+            if(count < 10 || count > 90) { alert("Testlar soni 10 va 90 orasida bo'lishi kerak!"); return; }
+            
+            document.getElementById('mainForm').classList.add('hidden');
+            document.getElementById('answerSheet').classList.remove('hidden');
+            
+            const grid = document.getElementById('gridContainer');
+            grid.innerHTML = '';
+            for(let i=1; i<=count; i++){
+                grid.innerHTML += `<input type="text" class="answer-input" id="q${i}" placeholder="${i}" maxlength="1">`;
+            }
+        }
+
+        function submitTest() {
+            const count = document.getElementById('questionCount').value;
+            let answers = "";
+            
+            for(let i=1; i<=count; i++){
+                let val = document.getElementById(`q${i}`).value.toLowerCase();
+                if(!val) val = "-"; // Belgilanmagan
+                answers += val;
+            }
+
+            const data = {
+                fullName: document.getElementById('fullName').value,
+                subject: document.getElementById('subject').value,
+                code: document.getElementById('testCode').value,
+                count: count,
+                mode: document.getElementById('scoreMode').value,
+                answers: answers
+            };
+
+            tg.sendData(JSON.stringify(data));
+        }
+    </script>
+</body>
+</html>
