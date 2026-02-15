@@ -1,4 +1,4 @@
-const { Telegraf } = require('telegraf');
+.const { Telegraf } = require('telegraf');
 const { createClient } = require('@supabase/supabase-js');
 
 // O'zgaruvchilarni Vercel Environmentdan olamiz
