@@ -10,7 +10,7 @@ const GROUP_ID = process.env.-1003621378351; // Natijalar tashlanadigan guruh ID
 bot.start((ctx) => {
     ctx.reply("Assalomu alaykum. Testni boshlash uchun quyidagi tugmani bosing:", {
         reply_markup: {
-            keyboard: [[{ text: "📝 Testni Boshlash", web_app: { url: process.env.WEBAPP_URL } }]],
+            keyboard: [[{ text: "📝 Testni Boshlash", web_app: { url: process.env.https://oson-tekshir-bot.vercel.app/ } }]],
             resize_keyboard: true
         }
     });
